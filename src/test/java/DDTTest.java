@@ -52,8 +52,8 @@ public class DDTTest extends DataProviderXML {
                 break;
             default:
                 softAssert.fail("incorrect validation type");
-                softAssert.assertAll();
         }
+        softAssert.assertAll();
     }
 
     @AfterMethod

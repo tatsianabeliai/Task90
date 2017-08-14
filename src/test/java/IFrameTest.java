@@ -1,3 +1,4 @@
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -28,7 +29,7 @@ public class IFrameTest extends TestBase {
                 sendKeys(Keys.chord("A")).
                 sendKeys(Keys.BACK_SPACE).
                 build().perform();
-        Assert.assertTrue($(YOUR_CONTENT_GOES_HERE).getText().isEmpty(), "the text field is not empty");
+        Assert.assertTrue($(YOUR_CONTENT_GOES_HERE).is(Condition.empty), "the text field is not empty");
     }
 
     @Test(dependsOnMethods = "clearText")
@@ -48,6 +49,6 @@ public class IFrameTest extends TestBase {
                 sendKeys(Keys.CONTROL).
                 sendKeys(Keys.LEFT).
                 build().perform();
-        Assert.assertTrue($(STRONG_LABEL).isDisplayed());
+        Assert.assertTrue($(STRONG_LABEL).is(Condition.visible));
     }
 }

@@ -1,11 +1,10 @@
-import com.codeborne.selenide.WebDriverRunner;
 import com.sun.org.glassfish.gmbal.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.Condition.appears;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class RMSysTest extends TestBase {
@@ -17,8 +16,9 @@ public class RMSysTest extends TestBase {
     private static final By HOME_MENU_TAB = By.id("homeMenu");
     private static final By OFFICE_TAB_LINK = By.id("officeMenu");
     private static final By SEARCH_BY_OFFICE = By.id("input-search");
-    private String username = "EugenBorisik";
-    private String password = "qwerty12345";
+    private static final String USERNAME = "EugenBorisik";
+    private static final String PASSWORD = "qwerty12345";
+    private static final int TIMEOUT_5SECONDS = 5000;
 
 
     public RMSysTest() {
@@ -28,26 +28,26 @@ public class RMSysTest extends TestBase {
     @Description("Go to RMSsys login page, enter credentials and login")
     @Test
     public void login() {
-        $(USERNAME_FIELD).sendKeys(username);
+        $(USERNAME_FIELD).sendKeys(USERNAME);
         try {
-            Thread.sleep(3000); //2.	Add Thread.sleep for login test. This is the Explicit Wait type
+            Thread.sleep(TIMEOUT_5SECONDS); //2.	Add Thread.sleep for login test. This is the Explicit Wait type
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        $(PASSWORD_FIELD).sendKeys(password);
+        $(PASSWORD_FIELD).sendKeys(PASSWORD);
         $(LOGIN_BUTTON).click();
 
         // 3.	Add explicit waiter for login test, which will wait until Sign out link appears (after login).
-        (new WebDriverWait(WebDriverRunner.getWebDriver(), 10)).until(ExpectedConditions.presenceOfElementLocated(SIGN_OUT_BUTTON));
+        $(SIGN_OUT_BUTTON).waitUntil(appears, TIMEOUT_5SECONDS);
+        Assert.assertTrue($(HOME_MENU_TAB).isDisplayed());
     }
 
     @Description("Login RMSys, got to Office tab wait for Search by office input to appear - wait 15 seconds, polling frequence - 2,7 seconds")
     @Test(dependsOnMethods = "login")
     public void waitForSearchByOffice() {
-                Assert.assertTrue($(HOME_MENU_TAB).isDisplayed());
+        $(HOME_MENU_TAB).shouldBe(visible);
         $(OFFICE_TAB_LINK).click();
-        new WebDriverWait(WebDriverRunner.getWebDriver(), 15, 2700).
-                until(ExpectedConditions.visibilityOfElementLocated(SEARCH_BY_OFFICE)); //4. wait 15 seconds, polling frequency - 2,7 seconds
+        $(SEARCH_BY_OFFICE).waitUntil(appears, TIMEOUT_5SECONDS);
     }
 }
 
