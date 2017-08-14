@@ -1,6 +1,5 @@
 import com.sun.org.glassfish.gmbal.Description;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Condition.appears;
@@ -39,7 +38,7 @@ public class RMSysTest extends TestBase {
 
         // 3.	Add explicit waiter for login test, which will wait until Sign out link appears (after login).
         $(SIGN_OUT_BUTTON).waitUntil(appears, TIMEOUT_5SECONDS);
-        Assert.assertTrue($(HOME_MENU_TAB).isDisplayed());
+        $(HOME_MENU_TAB).should(visible);
     }
 
     @Description("Login RMSys, got to Office tab wait for Search by office input to appear - wait 15 seconds, polling frequence - 2,7 seconds")
@@ -47,7 +46,7 @@ public class RMSysTest extends TestBase {
     public void waitForSearchByOffice() {
         $(HOME_MENU_TAB).shouldBe(visible);
         $(OFFICE_TAB_LINK).click();
-        $(SEARCH_BY_OFFICE).waitUntil(appears, TIMEOUT_5SECONDS);
+        $(SEARCH_BY_OFFICE).should(appears);
     }
 }
 
