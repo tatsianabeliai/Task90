@@ -1,7 +1,6 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.By;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -22,7 +21,7 @@ public class AlertsTest extends TestBase {
     public void clickJSAlerts() {
         $(CLICK_FOR_JS_ALERT_BUTTON).click();
         Selenide.confirm("I am a JS Alert");
-        Assert.assertEquals($(RESULT_MESSAGE).shouldHave(Condition.text("You successfuly clicked an alert")), "Incorrect message is displayed");
+        $(RESULT_MESSAGE).shouldHave(Condition.text("You successfuly clicked an alert"));
     }
 
 
@@ -30,7 +29,7 @@ public class AlertsTest extends TestBase {
     public void clickJSConfirm() {
         $(CLICK_FOR_JS_CONFIRM_BUTTON).click();
         Selenide.confirm("I am a JS Confirm");
-        Assert.assertEquals($(RESULT_MESSAGE).shouldHave(Condition.text("You clicked: Ok")), "Incorrect message is displayed");
+        $(RESULT_MESSAGE).shouldHave(Condition.text("You clicked: Ok"));
     }
 
     @Test
@@ -38,6 +37,6 @@ public class AlertsTest extends TestBase {
         $(CLICK_FOR_JS_PROMPT_BUTTON).click();
         Selenide.switchTo().alert().sendKeys(ALERT_PROMPT_TEXT);
         Selenide.confirm("I am a JS prompt");
-        Assert.assertEquals($(RESULT_MESSAGE).shouldHave(Condition.text("You entered: " + ALERT_PROMPT_TEXT)), "Incorrect message is displayed");
+        $(RESULT_MESSAGE).shouldHave(Condition.text("You entered: " + ALERT_PROMPT_TEXT));
     }
 }
